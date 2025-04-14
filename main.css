@@ -10,13 +10,20 @@
     --colorDark2: #3F72AF;
     --colorLight1: #DBE2EF;
     --colorLight2: #F9F7F7;
+    --thunder-duration: 10s;
+    --thunder-delay: 5s;
 }
 
-.wrapper {
-    width: 100vw;
+body {
+    width: 100%;
     height: 100vh;
     color: var(--colorLight2);
-    background-image: linear-gradient(160deg, #3a4e7a 0%, #d7e0eb 100%);
+    background-image: linear-gradient(180deg,rgb(255, 176, 116) 0%, rgb(162, 196, 251) 100%);
+    background-size: cover;
+    background-position: center bottom;
+    position: relative;
+    overflow: hidden;
+    display: block;
 }
 
 h1 {
@@ -242,4 +249,133 @@ h1 {
 
 .btn2:hover {
     transform: translateY(-10px);
+}
+     
+.snow, .snow:after, .snow:before {
+    top: -650px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+    radial-gradient(4px 4px at 100px 50px, #fff, transparent),
+    radial-gradient(6px 6px at 200px 150px, #fff, transparent),
+    radial-gradient(3px 3px at 300px 250px, #fff, transparent),
+    
+    
+    radial-gradient(4px 4px at 400px 350px, #fff, transparent),
+    radial-gradient(6px 6px at 500px 100px, #fff, transparent),
+    radial-gradient(3px 3px at 50px 200px, #fff, transparent),
+    
+    
+    radial-gradient(4px 4px at 150px 300px, #fff, transparent),
+    radial-gradient(6px 6px at 250px 400px, #fff, transparent),
+    radial-gradient(3px 3px at 350px 500px, #fff, transparent),
+    
+    radial-gradient(4px 4px at 700px 600px, #fff, transparent),
+    radial-gradient(8px 8px at 850px 500px, #fff, transparent),
+    radial-gradient(7px 7px at 750px 700px, #fff, transparent);
+    
+    
+    background-size: 650px 650px;
+    animation: snowAnim 3s linear;
+    animation-iteration-count: infinite;
+    pointer-events: none;
+    z-index: -1;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    scale: 0;
+}
+
+.snow.active {
+    scale: 1;
+}
+    
+.snow:after {
+    margin-left: -250px;
+    opacity: 0.5;
+    filter: blur(2px);
+    animation-direction: reverse;
+    animation-duration: 6s;
+    
+}    
+    
+.snow:before {
+    margin-left: -350px;
+    opacity: 0.7;
+    filter: blur(1px);
+    animation-direction: reverse;
+    animation-duration: 6s;
+}
+    
+@keyframes snowAnim {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(650px);
+    }
+}
+
+hr.thunder {
+    border: unset;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    animation-name: thunder;
+    animation-duration: var(--thunder-duration);
+    animation-timing-function: linear;
+    animation-delay: var(--thunder-delay);
+    animation-iteration-count: infinite;
+  }
+  
+hr:not(.thunder) {
+    width: 50px;
+    border-color: transparent;
+    border-right-color: rgba(255, 255, 255, 0.7);
+    border-right-width: 50px;
+    position: absolute;
+    bottom: 100%;
+    transform-origin: 100% 50%;
+    animation-name: rain;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.thunder {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: transparent;
+    animation: thunder 1s linear infinite;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+  
+@keyframes rain {
+    from {
+      transform: rotate(105deg) translateX(0);
+    }
+    to {
+      transform: rotate(105deg) translateX(calc(100vh + 20px));
+    }
+  }
+  
+  @keyframes thunder {
+    0% {
+      background-color: transparent;
+    }
+    1% {
+      background-color: white;
+    }
+    2% {
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+    8% {
+      background-color: transparent;
+    }
 }

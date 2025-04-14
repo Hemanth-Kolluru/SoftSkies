@@ -5,9 +5,11 @@ const grantAccessContainer = document.querySelector(".grant-location-container")
 const searchForm = document.querySelector("[data-searchForm]");
 const loadingScreen = document.querySelector(".loading-container");
 const userInfoContainer = document.querySelector(".user-info-container");
+const snowEffect = document.querySelector(".snow");
 
 let currentTab = userTab;
-const API_KEY = "ENTER-YOUR-API-KEY";
+let isRaining = false;
+const API_KEY = "7da6479743b0c1e184de17bc194541b7";
 currentTab.classList.add("current-tab");
 getfromSessionStorage();
 
@@ -23,6 +25,7 @@ function switchTab(clickedTab) {
             userInfoContainer.classList.remove("active");
             grantAccessContainer.classList.remove("active");
             searchForm.classList.add("active");
+            snowEffect.classList.remove("active");
         }
         else {
             searchForm.classList.remove("active");
@@ -78,11 +81,31 @@ function renderWeatherInfo(weatherInfo) {
     const humidity = document.querySelector("[data-humidity]");
     const cloudiness = document.querySelector("[data-cloudiness]");
 
+    const id = weatherInfo?.weather?.[0]?.id;
     cityName.innerText = weatherInfo?.name;
     countryIcon.src = `https://flagcdn.com/144x108/${weatherInfo?.sys?.country.toLowerCase()}.png`;
     desc.innerText = weatherInfo?.weather?.[0]?.description;
     weatherIcon.src = `https://openweathermap.org/img/w/${weatherInfo?.weather?.[0]?.icon}.png`;
     temp.innerText = `${weatherInfo?.main?.temp} °C`;
+    if((id >= 500 && id<=531) || (id >= 200 && id<=232) || (id >= 300 && id<=321))
+    {
+        document.body.style.backgroundImage = "linear-gradient(160deg, #2c3e50 0%, #bdc3c7 100%)";
+        startRain();
+    }
+    else
+    {
+        stopRain();
+        document.body.style.backgroundImage = "linear-gradient(180deg,rgb(255, 176, 116) 0%, rgb(162, 196, 251) 100%)";
+    }
+    if(id >= 600 && id <= 622)
+    {
+        snowEffect.classList.add("active");
+        document.body.style.backgroundImage = "linear-gradient(160deg, #3a4e7a 0%, #d7e0eb 100%)";
+    }
+    else
+    {
+        snowEffect.classList.remove("active");
+    }
     windspeed.innerText = `${weatherInfo?.wind?.speed} m/s`;
     humidity.innerText =`${weatherInfo?.main?.humidity}%`;
     cloudiness.innerText = `${weatherInfo?.clouds?.all}%`;
@@ -139,3 +162,34 @@ async function fetchSearchWeatherInfo(city) {
     }
 }
 
+function startRain() {
+    if (isRaining) return;
+    isRaining = true;
+    rain();
+}
+
+function stopRain() {
+    isRaining = false;
+    document.querySelectorAll("hr").forEach((hr) => hr.remove());
+    document.querySelectorAll(".thunder").forEach((thunder) => thunder.remove());
+}
+
+function rain() {
+    let hrElement;
+    let counter = 100;
+    for (let i = 0; i < counter; i++) {
+        hrElement = document.createElement("HR");
+
+        if (i === counter - 1) {
+            hrElement.classList.add("thunder");
+            document.body.appendChild(hrElement);
+            continue;
+        }
+
+        hrElement.style.left = Math.floor(Math.random() * window.innerWidth) + "px";
+        hrElement.style.animationDuration = 0.2 + Math.random() * 0.3 + "s";
+        hrElement.style.animationDelay = Math.random() * 5 + "s";
+
+        document.body.appendChild(hrElement);
+    }
+}
