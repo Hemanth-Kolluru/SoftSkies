@@ -9,7 +9,7 @@ const snowEffect = document.querySelector(".snow");
 
 let currentTab = userTab;
 let isRaining = false;
-const API_KEY = "7da6479743b0c1e184de17bc194541b7";
+const API_KEY = "ENTER-YOUR-API-KEY";
 currentTab.classList.add("current-tab");
 getfromSessionStorage();
 
